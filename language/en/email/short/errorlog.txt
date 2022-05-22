@@ -1,0 +1,15 @@
+Subject: New {SITENAME} error log entry
+
+Hello {USERNAME},
+
+You have received a new system-generated notification to your account on "{SITENAME}". It indicates a serious system problem that is causing an issue on your board. To view the error log:
+
+{U_BOARD}{ERROR_LOG_URL}
+
+This notification was sent to all administrators on "{SITENAME}" authorized to view phpBB logs that have not opted out of receiving them.
+
+You can always choose not to be notified of these kinds of messages by changing the appropriate setting in your profile.
+
+{U_NOTIFICATION_SETTINGS}
+
+{EMAIL_SIG}

@@ -1,0 +1,24 @@
+services:
+    phpbbservices.notifyonerror.listener:
+        class: phpbbservices\notifyonerror\event\main_listener
+        arguments:
+            - '@config'
+            - '@notification_manager'
+        tags:
+            - { name: event.listener }
+    phpbbservices.notifyonerror.notification.type.errorlog:
+        class: phpbbservices\notifyonerror\notification\type\errorlog
+        arguments:
+            - '@config'
+            - '@notification_manager'
+        shared: false
+        parent: notification.type.base
+        tags:
+            - { name: notification.type }
+        calls:
+            - ['set_helper', ['@controller.helper']]
+            - ['set_config', ['@config']]
+    phpbbservices.notifyonerror.common:
+        class: phpbbservices\notifyonerror\core\common
+        arguments:
+            - '@config'
