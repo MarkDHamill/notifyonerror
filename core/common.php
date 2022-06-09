@@ -3,7 +3,7 @@
  *
  * Notify on new error log entries. An extension for the phpBB Forum Software package.
  *
- * @copyright (c) 2022, MarkDHamill, https://www.phpbbservices.com/
+ * @copyright (c) 2022, Mark D. Hamill, https://www.phpbbservices.com/
  * @license GNU General Public License, version 2 (GPL-2.0)
  *
  */
@@ -13,7 +13,7 @@ namespace phpbbservices\notifyonerror\core;
 class common
 {
 
-	private $config;
+	protected $config;
 
 	/**
 	 * Constructor

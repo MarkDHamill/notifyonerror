@@ -3,7 +3,7 @@
  *
  * Notify on new error log entries. An extension for the phpBB Forum Software package.
  *
- * @copyright (c) 2022, MarkDHamill, https://www.phpbbservices.com/
+ * @copyright (c) 2022, Mark D. Hamill, https://www.phpbbservices.com/
  * @license GNU General Public License, version 2 (GPL-2.0)
  *
  */
@@ -29,18 +29,24 @@ class main_listener implements EventSubscriberInterface
 	}
 
 	protected $config;
+	protected $helper;
 	protected $notification_manager;
+	protected $user;
 
 	/**
 	 * Constructor
 	 *
-	 * @param \phpbb\config\config			$config					Config object
-	 * @param \phpbb\notification\manager	$notification_manager	Notification manager object
+	 * @param \phpbb\config\config						$config					Config object
+	 * @param \phpbb\notification\manager				$notification_manager	Notification manager object
+	 * @param \phpbbservices\notifyonerror\core\common 	$helper					Extension's helper object
+	 * @param \phpbb\user 								$user 					The user object
 	 */
-	public function __construct(\phpbb\config\config $config, \phpbb\notification\manager $notification_manager)
+	public function __construct(\phpbb\config\config $config, \phpbb\notification\manager $notification_manager, \phpbbservices\notifyonerror\core\common $helper, \phpbb\user $user)
 	{
 		$this->config = $config;
+		$this->helper = $helper;
 		$this->notification_manager = $notification_manager;
+		$this->user = $user;
 	}
 
 	/**
@@ -79,16 +85,19 @@ class main_listener implements EventSubscriberInterface
 	public function send_error_notification($vars)
 	{
 		// Notify on critical error log entries only
-		if ($vars['mode'] == 'critical')
+		if ($vars['mode'] === 'critical')	// Change this to 'admin' to test. Submitting any ACP form will then trigger the error.
 		{
-			// Increment the notification identifier by 1
-			$this->config->increment('phpbbservices_notifyonerror_notification_id', 1);
+			$options = array();
+
+			// Get the next notification ID
+			$notification_id = $this->helper->get_next_notification_id();
 
 			// Send each admin who can view logs an email notification
 			$this->notification_manager->add_notifications('phpbbservices.notifyonerror.notification.type.errorlog', [
-				'item_id'   => $this->config['phpbbservices_notifyonerror_notification_id'],
+				'item_id'   => $notification_id,
 				'user_id'	=> $vars['user_id'],
-			]);
+			],
+			$options);
 		}
 	}
 

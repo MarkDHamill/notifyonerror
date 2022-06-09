@@ -3,7 +3,7 @@
  *
  * Notify on new error log entries. An extension for the phpBB Forum Software package.
  *
- * @copyright (c) 2022, MarkDHamill, https://www.phpbbservices.com/
+ * @copyright (c) 2022, Mark D. Hamill, https://www.phpbbservices.com/
  * @license GNU General Public License, version 2 (GPL-2.0)
  *
  */
@@ -25,42 +25,6 @@ class errorlog extends \phpbb\notification\type\base
 		$php_ext
 		$user_notifications_table
 	*/
-
-	/** @var \phpbb\config\config */
-	protected $config;
-
-	/** @var \phpbb\controller\helper */
-	protected $helper;
-
-	/** @var \phpbb\user_loader */
-	protected $user_loader;
-
-	/**
-	 * Set controller helper.
-	 *
-	 * @param \phpbb\controller\helper  $helper  Controller helper object
-	 * @return void
-	 */
-	public function set_helper(\phpbb\controller\helper $helper)
-	{
-		$this->helper = $helper;
-	}
-
-	/**
-	 * Set user loader.
-	 *
-	 * @param \phpbb\user_loader  $user_loader  User loader object
-	 * @return void
-	 */
-	public function set_user_loader(\phpbb\user_loader $user_loader)
-	{
-		$this->user_loader = $user_loader;
-	}
-
-	public function set_config(\phpbb\config\config $config)
-	{
-		$this->config = $config;
-	}
 
 	/**
 	 * Get notification type name
@@ -103,7 +67,7 @@ class errorlog extends \phpbb\notification\type\base
 	 */
 	public static function get_item_id($data)
 	{
-		// Return the next notification ID for this extension.
+		// Return the next notification ID for this extension
 		return $data['item_id'];
 	}
 
@@ -137,7 +101,10 @@ class errorlog extends \phpbb\notification\type\base
 		$response = $this->check_user_notification_options($acl_get_ary[0]['a_viewlogs']);
 
 		// If this admin triggered the error, they should see an error message, so don't send them a notification
-		unset($response[$this->user->data['user_id']]);
+		if (isset($response[$this->user->data['user_id']]))
+		{
+			unset($response[$this->user->data['user_id']]);
+		}
 		return $response;
 	}
 
@@ -190,10 +157,28 @@ class errorlog extends \phpbb\notification\type\base
 	 */
 	public function get_email_template_variables()
 	{
-		// For emailing, need to remove the relative path from the ACP error log URL and make it absolute
+		// Remove session ID from URLs used for emailing
+		$parsed_url = parse_url(str_replace('&amp;','&',$this->get_url()));
+		$query = $parsed_url['query'];
+		parse_str($query, $params);
+		unset($params['sid']);
+
+		// For emailing, need to remove the relative path from the ACP error log URL and make it absolute.
+		// The template will inject the absolute URL for the board to make the links work.
+		$email_url = "/adm/index.{$this->php_ext}?" . str_replace('&','&amp;', http_build_query($params));
 		return [
-			'ERROR_LOG_URL'	=> str_replace($this->phpbb_root_path, '/', $this->get_url()),
+			'ERROR_LOG_URL'	=> $email_url,
 		];
+	}
+
+	/**
+	 * Get the URL to redirect to after the item has been marked as read.
+	 *
+	 * @return string  The URL to the phpBB error log
+	 */
+	public function get_redirect_url()
+	{
+		return append_sid("{$this->phpbb_root_path}adm/index.{$this->php_ext}?i=acp_logs&amp;mode=critical");
 	}
 
 }
