@@ -36,6 +36,5 @@ if (empty($lang) || !is_array($lang))
 
 $lang = array_merge($lang, [
 	'PHPBBSERVICES_NOTIFYONERROR_INSTALL_REQUIREMENTS'			=> 'This extension supports phpBB 3.3 only.',
-	'PHPBBSERVICES_NOTIFYONERROR_NOTIFYONERROR_REASON'			=> 'Please review the phpBB error log: ACP > Maintenance > Forum logs > Error log. A new log entry was added which needs attention.',
 	'PHPBBSERVICES_NOTIFYONERROR_NOTIFYONERROR_TITLE'			=> '<strong>New phpBB error log entry</strong>',
 ]);

@@ -24,29 +24,24 @@ class main_listener implements EventSubscriberInterface
 	{
 		return [
 			'core.user_setup'	=> 'load_language_on_setup',
-			'core.add_log'		=> 'send_error_notification'
+			'core.add_log'		=> 'send_error_notification',
 		];
 	}
 
-	protected $config;
 	protected $helper;
 	protected $notification_manager;
-	protected $user;
 
 	/**
 	 * Constructor
 	 *
-	 * @param \phpbb\config\config						$config					Config object
 	 * @param \phpbb\notification\manager				$notification_manager	Notification manager object
 	 * @param \phpbbservices\notifyonerror\core\common 	$helper					Extension's helper object
-	 * @param \phpbb\user 								$user 					The user object
+	 *
 	 */
-	public function __construct(\phpbb\config\config $config, \phpbb\notification\manager $notification_manager, \phpbbservices\notifyonerror\core\common $helper, \phpbb\user $user)
+	public function __construct(\phpbb\notification\manager $notification_manager, \phpbbservices\notifyonerror\core\common $helper)
 	{
-		$this->config = $config;
 		$this->helper = $helper;
 		$this->notification_manager = $notification_manager;
-		$this->user = $user;
 	}
 
 	/**
@@ -92,7 +87,7 @@ class main_listener implements EventSubscriberInterface
 			// Get the next notification ID
 			$notification_id = $this->helper->get_next_notification_id();
 
-			// Send each admin who can view logs an email notification
+			// Send each admin who can view logs an email notification, except the one triggering the error who should see it
 			$this->notification_manager->add_notifications('phpbbservices.notifyonerror.notification.type.errorlog', [
 				'item_id'   => $notification_id,
 				'user_id'	=> $vars['user_id'],

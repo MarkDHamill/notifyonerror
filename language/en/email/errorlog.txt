@@ -8,7 +8,7 @@ You have received a new system-generated notification to your account on "{SITEN
 
 This notification was sent to all administrators on "{SITENAME}" authorized to view phpBB logs that have not opted out of receiving them.
 
-You can always choose not to be notified of these kinds of messages by changing the appropriate setting in your profile.
+You can choose not to get these notifications by changing the appropriate setting in the User Control Panel. The direct link is below.
 
 {U_NOTIFICATION_SETTINGS}
 

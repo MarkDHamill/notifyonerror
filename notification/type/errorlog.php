@@ -43,8 +43,8 @@ class errorlog extends \phpbb\notification\type\base
 	 * 					Array of data (including keys 'id', 'lang', and 'group')
 	 */
 	public static $notification_option = [
+		'group' => 'NOTIFICATION_GROUP_ADMINISTRATION',
 		'lang'	=> 'PHPBBSERVICES_NOTIFYONERROR_NOTIFICATION_NOTIFYONERROR',
-		'group' => 'PHPBBSERVICES_NOTIFYONERROR_NOTIFICATIONS',
 	];
 
 	/**
@@ -54,7 +54,7 @@ class errorlog extends \phpbb\notification\type\base
 	 */
 	public function is_available()
 	{
-		// If a user can view the admin logs, they should have a control on the UCP Edit notifications options
+		// If a user can view the admin logs, they should have a control on the UCP Edit notifications options screen
 		return $this->auth->acl_get('a_viewlogs');
 	}
 
@@ -137,7 +137,7 @@ class errorlog extends \phpbb\notification\type\base
 	 */
 	public function get_url()
 	{
-		return append_sid("{$this->phpbb_root_path}adm/index.{$this->php_ext}?i=acp_logs&amp;mode=critical");
+		return "{$this->phpbb_root_path}adm/index.{$this->php_ext}?i=acp_logs&amp;mode=critical";
 	}
 
 	/**
@@ -158,7 +158,7 @@ class errorlog extends \phpbb\notification\type\base
 	public function get_email_template_variables()
 	{
 		// Remove session ID from URLs used for emailing
-		$parsed_url = parse_url(str_replace('&amp;','&',$this->get_url()));
+		$parsed_url = parse_url(str_replace('&amp;','&', $this->get_url()));
 		$query = $parsed_url['query'];
 		parse_str($query, $params);
 		unset($params['sid']);
@@ -169,16 +169,6 @@ class errorlog extends \phpbb\notification\type\base
 		return [
 			'ERROR_LOG_URL'	=> $email_url,
 		];
-	}
-
-	/**
-	 * Get the URL to redirect to after the item has been marked as read.
-	 *
-	 * @return string  The URL to the phpBB error log
-	 */
-	public function get_redirect_url()
-	{
-		return append_sid("{$this->phpbb_root_path}adm/index.{$this->php_ext}?i=acp_logs&amp;mode=critical");
 	}
 
 }

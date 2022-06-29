@@ -27,7 +27,7 @@ class ext extends \phpbb\extension\base
 
 		if (
 			phpbb_version_compare($config['version'], '3.3.0', '<') ||
-			phpbb_version_compare($config['version'], '4.0', '>='))
+			phpbb_version_compare($config['version'], '3.4.0', '>='))
 		{
 
 			// Import my extension's language file
@@ -55,9 +55,7 @@ class ext extends \phpbb\extension\base
 	{
 		if ($old_state === false)
 		{
-			$this->container->get('notification_manager')
-				->enable_notifications('phpbbservices.notifyonerror.notification.type.errorlog');
-
+			$this->container->get('notification_manager')->enable_notifications('phpbbservices.notifyonerror.notification.type.errorlog');
 			return 'notification';
 		}
 
@@ -77,9 +75,7 @@ class ext extends \phpbb\extension\base
 	{
 		if ($old_state === false)
 		{
-			$this->container->get('notification_manager')
-				->disable_notifications('phpbbservices.notifyonerror.notification.type.errorlog');
-
+			$this->container->get('notification_manager')->disable_notifications('phpbbservices.notifyonerror.notification.type.errorlog');
 			return 'notification';
 		}
 
@@ -99,9 +95,7 @@ class ext extends \phpbb\extension\base
 	{
 		if ($old_state === false)
 		{
-			$this->container->get('notification_manager')
-				->purge_notifications('phpbbservices.notifyonerror.notification.type.errorlog');
-
+			$this->container->get('notification_manager')->purge_notifications('phpbbservices.notifyonerror.notification.type.errorlog');
 			return 'notification';
 		}
 

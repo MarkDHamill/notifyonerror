@@ -6,10 +6,8 @@ services:
     phpbbservices.notifyonerror.listener:
         class: phpbbservices\notifyonerror\event\main_listener
         arguments:
-            - '@config'
             - '@notification_manager'
             - '@phpbbservices.notifyonerror.common'
-            - '@user'
         tags:
             - { name: event.listener }
     phpbbservices.notifyonerror.notification.type.errorlog:

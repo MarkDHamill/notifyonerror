@@ -35,6 +35,5 @@ if (empty($lang) || !is_array($lang))
 //
 
 $lang = array_merge($lang, [
-	'PHPBBSERVICES_NOTIFYONERROR_NOTIFICATIONS'        			=> 'Admin log error notifications',
-	'PHPBBSERVICES_NOTIFYONERROR_NOTIFICATION_NOTIFYONERROR'  	=> 'Admin log error notification',
+	'PHPBBSERVICES_NOTIFYONERROR_NOTIFICATION_NOTIFYONERROR'  	=> 'Error log notifications',
 ]);

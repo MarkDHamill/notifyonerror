@@ -4,7 +4,7 @@
     "description": "Notifies administrators when an entry is made to the phpBB error log",
     "homepage": "https://www.phpbbservices.com/my-software/notify-on-error/",
     "version": "1.0.1-beta",
-    "time": "2022-06-09",
+    "time": "2022-06-29",
     "license": "GPL-2.0-only",
     "authors": [
         {
